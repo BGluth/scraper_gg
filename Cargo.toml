@@ -1,8 +1,9 @@
-[package]
-name = "scraper_gg"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = ["gg_query", "normalized_data", "query_interface"]
+resolver = "2"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[profile.release]
+opt-level = 3
+incremental = true
+lto = "fat"
+codegen-units = 1
