@@ -1,0 +1,7 @@
+comment_width = 140
+group_imports = "StdExternalCrate"
+imports_granularity = "Crate"
+normalize_comments = true
+max_width = 140
+unstable_features = true
+wrap_comments = true
