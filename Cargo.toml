@@ -1,5 +1,5 @@
 [workspace]
-members = ["gg_query", "normalized_data", "query_interface"]
+members = ["daemon", "gg_query", "normalized_data", "query_interface"]
 resolver = "2"
 
 [profile.release]
