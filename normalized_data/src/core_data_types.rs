@@ -3,10 +3,10 @@
 
 use serde::{Deserialize, Serialize};
 
-pub type BracketId = u64;
-pub type SetId = u64;
-pub type GameId = u64;
-pub type PlayerId = u64;
+pub type CoreBracketId = u64;
+pub type CoreSetId = u64;
+pub type CoreGameId = u64;
+pub type CorePlayerId = u64;
 
 // TODO: No idea how to represent this data. This needs to be game agnostic, so
 // this might be a bit tricky...
@@ -15,13 +15,13 @@ pub type PlayerGameMetaInfo = u64;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Tournament {
     name: String,
-    brackets: Vec<BracketId>,
+    brackets: Vec<CoreBracketId>,
     admins: Vec<AdminAndPrivilegeLevel>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct AdminAndPrivilegeLevel {
-    p_id: PlayerId,
+    p_id: CorePlayerId,
     p_level: AdminPrivilegeLevel,
 }
 
@@ -30,9 +30,9 @@ pub enum AdminPrivilegeLevel {}
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Bracket {
-    id: BracketId,
+    id: CoreBracketId,
     b_type: BracketType,
-    sets: Vec<SetId>,
+    sets: Vec<CoreSetId>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -43,12 +43,12 @@ pub enum BracketType {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Set {
-    games: Vec<GameId>,
+    games: Vec<CoreGameId>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Game {
-    id: GameId,
+    id: CoreGameId,
     g_type: GameType,
     winning_side: GameWinningSide,
 }
@@ -70,7 +70,7 @@ pub enum GameType {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PlayerGameInfo {
-    p_id: PlayerId,
+    p_id: CorePlayerId,
     meta: PlayerGameMetaInfo,
 }
 
