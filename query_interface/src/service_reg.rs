@@ -1,4 +1,5 @@
 use futures::{Future, Stream};
+use normalized_data::dehydrated_data_types::DehydratedTournament;
 
 pub struct ScraperService {
     name: String,
@@ -20,4 +21,11 @@ pub trait CoreQuery {
 
     fn get_all_sets_of_tournament(&self, id: Self::TournamentId) -> impl Future<Output = impl Stream<Item = Self::SetId>> + Send;
     fn get_all_games_of_set(&self, id: Self::SetId) -> impl Future<Output = impl Stream<Item = Self::GameId>> + Send;
+}
+
+trait NormalizedCoreQuery {
+    #[allow(unused_variables)]
+    fn get_tournament<I>(&self, id: I) -> impl Future<Output = DehydratedTournament> {
+        futures::future::pending()
+    }
 }

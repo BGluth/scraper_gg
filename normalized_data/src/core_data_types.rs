@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+pub type CoreTournamentId = u64;
 pub type CoreBracketId = u64;
 pub type CoreSetId = u64;
 pub type CoreGameId = u64;

@@ -265,6 +265,7 @@ name = "query_interface"
 version = "0.1.0"
 dependencies = [
  "futures",
+ "normalized_data",
 ]
 
 [[package]]
