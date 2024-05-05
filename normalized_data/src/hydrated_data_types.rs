@@ -7,12 +7,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::data_types::{Bracket, Game, PlayerGameInfo, Set};
 
-pub type CoreTournamentId = u64;
-pub type CoreBracketId = u64;
-pub type CoreSetId = u64;
-pub type CoreGameId = u64;
-pub type CorePlayerId = u64;
-
 // TODO: No idea how to represent this data. This needs to be game agnostic, so
 // this might be a bit tricky...
 pub type PlayerGameMetaInfo = u64;
@@ -22,12 +16,12 @@ pub struct HydratedTournament<I> {
     t_id: I,
     name: String,
     brackets: Vec<Bracket<I>>,
-    admins: Vec<AdminAndPrivilegeLevel>,
+    admins: Vec<AdminAndPrivilegeLevel<I>>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct AdminAndPrivilegeLevel {
-    p_id: CorePlayerId,
+pub struct AdminAndPrivilegeLevel<I> {
+    p_id: I,
     p_level: AdminPrivilegeLevel,
 }
 
