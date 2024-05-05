@@ -1,5 +1,6 @@
 use std::fmt::Debug;
 
+use paste::paste;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -9,38 +10,21 @@ use crate::{
     hydrated_data_types::{HydratedBracket, HydratedGame, HydratedPlayer, HydratedPlayerGameInfo, HydratedSet, HydratedTournament},
 };
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Tournament<I> {
-    Dehydrated(DehydratedTournament<I>),
-    Hydrated(HydratedTournament<I>),
+macro_rules! define_hydrated_dehydrated_enum {
+    ($type_name:ident) => {
+        paste! {
+            #[derive(Clone, Debug, Deserialize, Serialize)]
+            pub enum [<$type_name>]<I> {
+                Dehydrated([<Dehydrated$type_name>]<I>),
+                Hydrated([<Hydrated$type_name>]<I>),
+            }
+        }
+    };
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Bracket<I> {
-    Dehydrated(DehydratedBracket<I>),
-    Hydrated(HydratedBracket<I>),
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Set<I> {
-    Dehydrated(DehydratedSet<I>),
-    Hydrated(HydratedSet<I>),
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Game<I> {
-    Dehydrated(DehydratedGame<I>),
-    Hydrated(HydratedGame<I>),
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum PlayerGameInfo<I> {
-    Dehydrated(DehydratedPlayerGameInfo<I>),
-    Hydrated(HydratedPlayerGameInfo<I>),
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum Player<I> {
-    Dehydrated(DehydratedPlayer<I>),
-    Hydrated(HydratedPlayer<I>),
-}
+define_hydrated_dehydrated_enum!(Tournament);
+define_hydrated_dehydrated_enum!(Bracket);
+define_hydrated_dehydrated_enum!(Set);
+define_hydrated_dehydrated_enum!(Game);
+define_hydrated_dehydrated_enum!(PlayerGameInfo);
+define_hydrated_dehydrated_enum!(Player);
