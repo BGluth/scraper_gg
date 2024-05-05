@@ -14,9 +14,10 @@ pub type CorePlayerId = u64;
 pub type PlayerGameMetaInfo = u64;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Tournament {
+pub struct HydratedTournament {
+    t_id: CoreTournamentId,
     name: String,
-    brackets: Vec<Bracket>,
+    brackets: Vec<HydratedBracket>,
     admins: Vec<AdminAndPrivilegeLevel>,
 }
 
@@ -30,10 +31,10 @@ pub struct AdminAndPrivilegeLevel {
 pub enum AdminPrivilegeLevel {}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Bracket {
-    id: CoreBracketId,
+pub struct HydratedBracket {
+    b_id: CoreBracketId,
     b_type: BracketType,
-    sets: Vec<Set>,
+    sets: Vec<HydratedSet>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -43,13 +44,13 @@ pub enum BracketType {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Set {
-    games: Vec<Game>,
+pub struct HydratedSet {
+    games: Vec<HydratedGame>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Game {
-    id: CoreGameId,
+pub struct HydratedGame {
+    g_id: CoreGameId,
     g_type: GameType,
     winning_side: GameWinningSide,
 }
@@ -65,18 +66,19 @@ pub enum GameWinningSide {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum GameType {
-    OneVOne(PlayerGameInfo, PlayerGameInfo),
-    MultiVsMulti(Vec<PlayerGameInfo>, Vec<PlayerGameInfo>),
+    OneVOne(HydratedPlayerGameInfo, HydratedPlayerGameInfo),
+    MultiVsMulti(Vec<HydratedPlayerGameInfo>, Vec<HydratedPlayerGameInfo>),
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct PlayerGameInfo {
+pub struct HydratedPlayerGameInfo {
     p_id: CorePlayerId,
     meta: PlayerGameMetaInfo,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Player {
+pub struct HydratedPlayer {
+    p_id: CorePlayerId,
     name: String,
     prefix: String,
 }
