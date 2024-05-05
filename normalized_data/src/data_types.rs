@@ -14,7 +14,10 @@ macro_rules! define_hydrated_dehydrated_enum {
     ($type_name:ident) => {
         paste! {
             #[derive(Clone, Debug, Deserialize, Serialize)]
-            pub enum [<$type_name>]<I> {
+            pub struct [<$type_name>]<I>([<$type_name Intern>]<I>);
+
+            #[derive(Clone, Debug, Deserialize, Serialize)]
+            enum [<$type_name Intern>]<I> {
                 Dehydrated([<Dehydrated$type_name>]<I>),
                 Hydrated([<Hydrated$type_name>]<I>),
             }
