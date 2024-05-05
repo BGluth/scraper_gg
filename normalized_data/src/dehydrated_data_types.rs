@@ -13,20 +13,20 @@ pub trait NormalizableData {
 }
 
 pub trait HydratableNormalized {
-    type NormalizableData;
+    type NormalizedData;
 
-    fn hydrate_to_normalized(self) -> Self::NormalizableData;
+    fn hydrate_to_normalized(self) -> Self::NormalizedData;
 }
 
-impl<T, N> HydratableNormalized for T
+impl<T, H> HydratableNormalized for T
 where
-    T: Hydratable<Hydrated = N>,
-    N: NormalizableData,
+    T: Hydratable<Hydrated = H>,
+    H: NormalizableData,
 {
-    type NormalizableData = N;
+    type NormalizedData = H::NormalizedData;
 
-    fn hydrate_to_normalized(self) -> Self::NormalizableData {
-        todo!()
+    fn hydrate_to_normalized(self) -> Self::NormalizedData {
+        self.hydrate().normalize()
     }
 }
 
