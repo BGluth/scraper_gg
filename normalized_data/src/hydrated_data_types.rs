@@ -1,7 +1,11 @@
 //! Core data types that are needed to re-create all of the data scraped. Note that there are still other "intermediate" datatypes that are
 //! created (and cached?) for ease-of-use.
 
+use std::fmt::Debug;
+
 use serde::{Deserialize, Serialize};
+
+use crate::data_types::{Bracket, Game, PlayerGameInfo, Set};
 
 pub type CoreTournamentId = u64;
 pub type CoreBracketId = u64;
@@ -13,11 +17,11 @@ pub type CorePlayerId = u64;
 // this might be a bit tricky...
 pub type PlayerGameMetaInfo = u64;
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct HydratedTournament {
-    t_id: CoreTournamentId,
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct HydratedTournament<I> {
+    t_id: I,
     name: String,
-    brackets: Vec<HydratedBracket>,
+    brackets: Vec<Bracket<I>>,
     admins: Vec<AdminAndPrivilegeLevel>,
 }
 
@@ -31,10 +35,10 @@ pub struct AdminAndPrivilegeLevel {
 pub enum AdminPrivilegeLevel {}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedBracket {
-    b_id: CoreBracketId,
+pub struct HydratedBracket<I> {
+    b_id: I,
     b_type: BracketType,
-    sets: Vec<HydratedSet>,
+    sets: Vec<Set<I>>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -44,14 +48,15 @@ pub enum BracketType {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedSet {
-    games: Vec<HydratedGame>,
+pub struct HydratedSet<I> {
+    s_id: I,
+    games: Vec<Game<I>>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedGame {
-    g_id: CoreGameId,
-    g_type: GameType,
+pub struct HydratedGame<I> {
+    g_id: I,
+    g_type: GameType<I>,
     winning_side: GameWinningSide,
 }
 
@@ -65,20 +70,20 @@ pub enum GameWinningSide {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum GameType {
-    OneVOne(HydratedPlayerGameInfo, HydratedPlayerGameInfo),
-    MultiVsMulti(Vec<HydratedPlayerGameInfo>, Vec<HydratedPlayerGameInfo>),
+pub enum GameType<I> {
+    OneVOne(PlayerGameInfo<I>, PlayerGameInfo<I>),
+    MultiVsMulti(Vec<PlayerGameInfo<I>>, Vec<PlayerGameInfo<I>>),
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedPlayerGameInfo {
-    p_id: CorePlayerId,
+pub struct HydratedPlayerGameInfo<I> {
+    p_id: I,
     meta: PlayerGameMetaInfo,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedPlayer {
-    p_id: CorePlayerId,
+pub struct HydratedPlayer<I> {
+    p_id: I,
     name: String,
     prefix: String,
 }
