@@ -1,55 +1,49 @@
-use serde::{Deserialize, Serialize};
+pub trait Hydratable {
+    type Hydrated;
 
-use crate::core_data_types::{
-    AdminAndPrivilegeLevel, Bracket, BracketType, CoreBracketId, CoreGameId, Game, GameType, GameWinningSide, Set, Tournament,
-};
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct DehydratedTournament {
-    name: String,
-    brackets: Vec<DehydratedBracket>,
-    admins: Vec<AdminAndPrivilegeLevel>,
+    fn hydrate(self) -> Self::Hydrated;
 }
 
-impl DehydratedTournament {
-    pub fn hydrate(self) -> Tournament {
+pub trait NormalizableData {
+    type NormalizedData;
+
+    fn normalize(&self) -> Self::NormalizedData;
+}
+
+pub trait HydratableNormalized {
+    type NormalizableData;
+
+    fn hydrate_to_normalized(self) -> Self::NormalizableData;
+}
+
+impl<T, N> HydratableNormalized for T
+where
+    T: Hydratable<Hydrated = N>,
+    N: NormalizableData,
+{
+    type NormalizableData = N;
+
+    fn hydrate_to_normalized(self) -> Self::NormalizableData {
         todo!()
     }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct DehydratedBracket {
-    id: CoreBracketId,
-    b_type: BracketType,
-    sets: Vec<DehydratedSet>,
+#[derive(Debug)]
+pub struct DehydratedTournament<I> {
+    t_id: I,
 }
 
-impl DehydratedBracket {
-    pub fn hydrate(self) -> Bracket {
-        todo!()
-    }
+#[derive(Debug)]
+pub struct DehydratedBracket<I> {
+    b_id: I,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct DehydratedSet {
-    games: Vec<DehydratedGame>,
+#[derive(Debug)]
+pub struct DehydratedSet<I> {
+    s_id: I,
 }
 
-impl DehydratedSet {
-    pub fn hydrate(self) -> Set {
-        todo!()
-    }
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct DehydratedGame {
-    id: CoreGameId,
-    g_type: GameType,
-    winning_side: GameWinningSide,
-}
-
-impl DehydratedGame {
-    pub fn hydrate(self) -> Game {
-        todo!()
-    }
+#[derive(Debug)]
+pub struct DehydratedGame<I> {
+    g_id: I,
 }

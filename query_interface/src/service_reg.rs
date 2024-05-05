@@ -25,7 +25,7 @@ pub trait CoreQuery {
 
 trait NormalizedCoreQuery {
     #[allow(unused_variables)]
-    fn get_tournament<I>(&self, id: I) -> impl Future<Output = DehydratedTournament> {
+    fn get_tournament<I>(&self, id: I) -> impl Future<Output = DehydratedTournament<I>> {
         futures::future::pending()
     }
 }
