@@ -16,7 +16,7 @@ pub trait Dehydrateable {
     type Origin: DataOrigin;
     type Dehydrated;
 
-    fn dehydrate(self) -> Self::Dehydrated;
+    fn dehydrate(&self) -> Self::Dehydrated;
 }
 
 pub trait NormalizableData {

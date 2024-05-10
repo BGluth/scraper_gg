@@ -41,7 +41,7 @@ impl Dehydrateable for HydratedNormalizedTournament {
     type Origin = NormalizedOrigin;
     type Dehydrated = DehydratedNormalizedTournament;
 
-    fn dehydrate(self) -> Self::Dehydrated {
+    fn dehydrate(&self) -> Self::Dehydrated {
         todo!()
     }
 }
@@ -66,7 +66,7 @@ impl Dehydrateable for HydratedNormalizedBracket {
     type Origin = NormalizedOrigin;
     type Dehydrated = DehydratedNormalizedBracket;
 
-    fn dehydrate(self) -> Self::Dehydrated {
+    fn dehydrate(&self) -> Self::Dehydrated {
         todo!()
     }
 }
@@ -87,7 +87,7 @@ impl Dehydrateable for HydratedNormalizedSet {
     type Origin = NormalizedOrigin;
     type Dehydrated = DehydratedNormalizedSet;
 
-    fn dehydrate(self) -> Self::Dehydrated {
+    fn dehydrate(&self) -> Self::Dehydrated {
         todo!()
     }
 }
@@ -103,7 +103,7 @@ impl Dehydrateable for HydratedNormalizedGame {
     type Origin = NormalizedOrigin;
     type Dehydrated = DehydratedNormalizedGame;
 
-    fn dehydrate(self) -> Self::Dehydrated {
+    fn dehydrate(&self) -> Self::Dehydrated {
         todo!()
     }
 }
@@ -133,7 +133,7 @@ impl Dehydrateable for HydratedNormalizedPlayerGameInfo {
     type Origin = NormalizedOrigin;
     type Dehydrated = DehydratedNormalizedPlayerGameInfo;
 
-    fn dehydrate(self) -> Self::Dehydrated {
+    fn dehydrate(&self) -> Self::Dehydrated {
         todo!()
     }
 }
