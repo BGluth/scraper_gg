@@ -2,6 +2,9 @@ use std::fmt::Debug;
 
 use serde::{Deserialize, Serialize};
 
+pub struct NormalizedOrigin();
+impl DataOrigin for NormalizedOrigin {}
+
 pub trait Hydratable {
     type Origin: DataOrigin;
     type Hydrated;

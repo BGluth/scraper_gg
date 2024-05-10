@@ -6,13 +6,24 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    data_types::Dehydrateable,
-    normalized_data::{
-        DehydratedNormalizedBracket, DehydratedNormalizedGame, DehydratedNormalizedPlayer, DehydratedNormalizedPlayerGameInfo,
-        DehydratedNormalizedSet, DehydratedNormalizedTournament, NormalizedBracket, NormalizedGame, NormalizedId, NormalizedOrigin,
-        NormalizedPlayerGameInfo, NormalizedSet,
+    data_types::{Dehydrateable, HydratableType, NormalizedOrigin},
+    dehydrated_data_types::{
+        DehydratedBracket, DehydratedGame, DehydratedPlayer, DehydratedPlayerGameInfo, DehydratedSet, DehydratedTournament,
+    },
+    dehydrated_normalized_data::{
+        DehydratedNormalizedBracket, DehydratedNormalizedGame, DehydratedNormalizedPlayerGameInfo, DehydratedNormalizedSet,
+        DehydratedNormalizedTournament,
     },
 };
+
+pub type NormalizedId = u64;
+
+pub type NormalizedTournament = HydratableType<DehydratedTournament<NormalizedId>, HydratedNormalizedTournament>;
+pub type NormalizedBracket = HydratableType<DehydratedBracket<NormalizedId>, HydratedNormalizedBracket>;
+pub type NormalizedSet = HydratableType<DehydratedSet<NormalizedId>, HydratedNormalizedSet>;
+pub type NormalizedGame = HydratableType<DehydratedGame<NormalizedId>, HydratedNormalizedGame>;
+pub type NormalizedPlayerGameInfo = HydratableType<DehydratedPlayerGameInfo<NormalizedId>, HydratedNormalizedPlayerGameInfo>;
+pub type NormalizedPlayer = HydratableType<DehydratedPlayer<NormalizedId>, HydratedNormalizedPlayer>;
 
 // TODO: No idea how to represent this data. This needs to be game agnostic, so
 // this might be a bit tricky...
@@ -132,13 +143,4 @@ pub struct HydratedNormalizedPlayer {
     p_id: NormalizedId,
     name: String,
     prefix: String,
-}
-
-impl Dehydrateable for HydratedNormalizedPlayer {
-    type Origin = NormalizedOrigin;
-    type Dehydrated = DehydratedNormalizedPlayer;
-
-    fn dehydrate(self) -> Self::Dehydrated {
-        todo!()
-    }
 }
