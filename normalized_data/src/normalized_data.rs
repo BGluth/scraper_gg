@@ -1,70 +1,81 @@
 use crate::{
+    data_types::{DataOrigin, Hydratable, HydratableType},
     dehydrated_data_types::{
-        DehydratedBracket, DehydratedGame, DehydratedPlayer, DehydratedPlayerGameInfo, DehydratedSet, DehydratedTournament, Hydratable,
+        DehydratedBracket, DehydratedGame, DehydratedPlayer, DehydratedPlayerGameInfo, DehydratedSet, DehydratedTournament,
     },
     normalized_hydrated_data_types::{
-        HydratedBracket, HydratedGame, HydratedPlayer, HydratedPlayerGameInfo, HydratedSet, HydratedTournament,
+        HydratedNormalizedBracket, HydratedNormalizedGame, HydratedNormalizedPlayer, HydratedNormalizedPlayerGameInfo,
+        HydratedNormalizedSet, HydratedNormalizedTournament,
     },
 };
 
 pub type NormalizedId = u64;
 
-pub type NormalizedHydratedTournament = HydratedTournament<NormalizedId>;
-pub type NormalizedHydratedBracket = HydratedBracket<NormalizedId>;
-pub type NormalizedHydratedSet = HydratedSet<NormalizedId>;
-pub type NormalizedHydratedGame = HydratedGame<NormalizedId>;
-pub type NormalizedHydratedPlayerGameInfo = HydratedPlayerGameInfo<NormalizedId>;
-pub type NormalizedHydratedPlayer = HydratedPlayer<NormalizedId>;
+pub type NormalizedTournament = HydratableType<DehydratedTournament<NormalizedId>, HydratedNormalizedTournament>;
+pub type NormalizedBracket = HydratableType<DehydratedBracket<NormalizedId>, HydratedNormalizedBracket>;
+pub type NormalizedSet = HydratableType<DehydratedSet<NormalizedId>, HydratedNormalizedSet>;
+pub type NormalizedGame = HydratableType<DehydratedGame<NormalizedId>, HydratedNormalizedGame>;
+pub type NormalizedPlayerGameInfo = HydratableType<DehydratedPlayerGameInfo<NormalizedId>, HydratedNormalizedPlayerGameInfo>;
+pub type NormalizedPlayer = HydratableType<DehydratedPlayer<NormalizedId>, HydratedNormalizedPlayer>;
 
-pub type NormalizedDehydratedTournament = DehydratedTournament<NormalizedId>;
-pub type NormalizedDehydratedBracket = DehydratedBracket<NormalizedId>;
-pub type NormalizedDehydratedSet = DehydratedSet<NormalizedId>;
-pub type NormalizedDehydratedGame = DehydratedGame<NormalizedId>;
-pub type NormalizedDehydratedPlayerGameInfo = DehydratedPlayerGameInfo<NormalizedId>;
-pub type NormalizedDehydratedPlayer = DehydratedPlayer<NormalizedId>;
+pub type DehydratedNormalizedTournament = DehydratedTournament<NormalizedId>;
+pub type DehydratedNormalizedBracket = DehydratedBracket<NormalizedId>;
+pub type DehydratedNormalizedSet = DehydratedSet<NormalizedId>;
+pub type DehydratedNormalizedGame = DehydratedGame<NormalizedId>;
+pub type DehydratedNormalizedPlayerGameInfo = DehydratedPlayerGameInfo<NormalizedId>;
+pub type DehydratedNormalizedPlayer = DehydratedPlayer<NormalizedId>;
 
-impl Hydratable for NormalizedDehydratedTournament {
-    type Hydrated = NormalizedHydratedTournament;
+pub struct NormalizedOrigin();
+impl DataOrigin for NormalizedOrigin {}
 
-    fn hydrate(self) -> Self::Hydrated {
-        todo!()
-    }
-}
-
-impl Hydratable for NormalizedDehydratedBracket {
-    type Hydrated = NormalizedHydratedBracket;
+impl Hydratable for DehydratedNormalizedTournament {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedTournament;
 
     fn hydrate(self) -> Self::Hydrated {
         todo!()
     }
 }
 
-impl Hydratable for NormalizedDehydratedSet {
-    type Hydrated = NormalizedHydratedSet;
+impl Hydratable for DehydratedNormalizedBracket {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedBracket;
 
     fn hydrate(self) -> Self::Hydrated {
         todo!()
     }
 }
 
-impl Hydratable for NormalizedDehydratedGame {
-    type Hydrated = NormalizedHydratedGame;
+impl Hydratable for DehydratedNormalizedSet {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedSet;
 
     fn hydrate(self) -> Self::Hydrated {
         todo!()
     }
 }
 
-impl Hydratable for NormalizedDehydratedPlayerGameInfo {
-    type Hydrated = NormalizedHydratedPlayerGameInfo;
+impl Hydratable for DehydratedNormalizedGame {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedGame;
 
     fn hydrate(self) -> Self::Hydrated {
         todo!()
     }
 }
 
-impl Hydratable for NormalizedDehydratedPlayer {
-    type Hydrated = NormalizedHydratedPlayer;
+impl Hydratable for DehydratedNormalizedPlayerGameInfo {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedPlayerGameInfo;
+
+    fn hydrate(self) -> Self::Hydrated {
+        todo!()
+    }
+}
+
+impl Hydratable for DehydratedNormalizedPlayer {
+    type Origin = NormalizedOrigin;
+    type Hydrated = HydratedNormalizedPlayer;
 
     fn hydrate(self) -> Self::Hydrated {
         todo!()

@@ -5,23 +5,39 @@ use std::fmt::Debug;
 
 use serde::{Deserialize, Serialize};
 
-use crate::data_types::{Bracket, Game, PlayerGameInfo, Set};
+use crate::{
+    data_types::Dehydrateable,
+    normalized_data::{
+        DehydratedNormalizedBracket, DehydratedNormalizedGame, DehydratedNormalizedPlayer, DehydratedNormalizedPlayerGameInfo,
+        DehydratedNormalizedSet, DehydratedNormalizedTournament, NormalizedBracket, NormalizedGame, NormalizedId, NormalizedOrigin,
+        NormalizedPlayerGameInfo, NormalizedSet,
+    },
+};
 
 // TODO: No idea how to represent this data. This needs to be game agnostic, so
 // this might be a bit tricky...
 pub type PlayerGameMetaInfo = u64;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedTournament<I> {
-    t_id: I,
+pub struct HydratedNormalizedTournament {
+    t_id: NormalizedId,
     name: String,
-    brackets: Vec<Bracket<I>>,
-    admins: Vec<AdminAndPrivilegeLevel<I>>,
+    brackets: Vec<NormalizedBracket>,
+    admins: Vec<AdminAndPrivilegeLevel>,
+}
+
+impl Dehydrateable for HydratedNormalizedTournament {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedTournament;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct AdminAndPrivilegeLevel<I> {
-    p_id: I,
+pub struct AdminAndPrivilegeLevel {
+    p_id: NormalizedId,
     p_level: AdminPrivilegeLevel,
 }
 
@@ -29,29 +45,56 @@ pub struct AdminAndPrivilegeLevel<I> {
 pub enum AdminPrivilegeLevel {}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedBracket<I> {
-    b_id: I,
-    b_type: BracketType,
-    sets: Vec<Set<I>>,
+pub struct HydratedNormalizedBracket {
+    b_id: NormalizedId,
+    b_type: BracketNormalizedType,
+    sets: Vec<NormalizedSet>,
+}
+
+impl Dehydrateable for HydratedNormalizedBracket {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedBracket;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum BracketType {
+pub enum BracketNormalizedType {
     DoubleElim,
     RoundRobin,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedSet<I> {
-    s_id: I,
-    games: Vec<Game<I>>,
+pub struct HydratedNormalizedSet {
+    s_id: NormalizedId,
+    games: Vec<NormalizedGame>,
+}
+
+impl Dehydrateable for HydratedNormalizedSet {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedSet;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedGame<I> {
-    g_id: I,
-    g_type: GameType<I>,
+pub struct HydratedNormalizedGame {
+    g_id: NormalizedId,
+    g_type: GameType,
     winning_side: GameWinningSide,
+}
+
+impl Dehydrateable for HydratedNormalizedGame {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedGame;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
 }
 
 /// Kind of a weird way to do this, but we need a bit to indicate which side one
@@ -64,20 +107,38 @@ pub enum GameWinningSide {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub enum GameType<I> {
-    OneVOne(PlayerGameInfo<I>, PlayerGameInfo<I>),
-    MultiVsMulti(Vec<PlayerGameInfo<I>>, Vec<PlayerGameInfo<I>>),
+pub enum GameType {
+    OneVOne(NormalizedPlayerGameInfo, NormalizedPlayerGameInfo),
+    MultiVsMulti(Vec<NormalizedPlayerGameInfo>, Vec<NormalizedPlayerGameInfo>),
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedPlayerGameInfo<I> {
-    p_id: I,
+pub struct HydratedNormalizedPlayerGameInfo {
+    p_id: NormalizedId,
     meta: PlayerGameMetaInfo,
 }
 
+impl Dehydrateable for HydratedNormalizedPlayerGameInfo {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedPlayerGameInfo;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct HydratedPlayer<I> {
-    p_id: I,
+pub struct HydratedNormalizedPlayer {
+    p_id: NormalizedId,
     name: String,
     prefix: String,
+}
+
+impl Dehydrateable for HydratedNormalizedPlayer {
+    type Origin = NormalizedOrigin;
+    type Dehydrated = DehydratedNormalizedPlayer;
+
+    fn dehydrate(self) -> Self::Dehydrated {
+        todo!()
+    }
 }

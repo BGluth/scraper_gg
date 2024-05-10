@@ -1,35 +1,53 @@
 use std::fmt::Debug;
 
-use paste::paste;
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    dehydrated_data_types::{
-        DehydratedBracket, DehydratedGame, DehydratedPlayer, DehydratedPlayerGameInfo, DehydratedSet, DehydratedTournament,
-    },
-    normalized_hydrated_data_types::{
-        HydratedBracket, HydratedGame, HydratedPlayer, HydratedPlayerGameInfo, HydratedSet, HydratedTournament,
-    },
-};
+pub trait Hydratable {
+    type Origin: DataOrigin;
+    type Hydrated;
 
-macro_rules! define_hydrated_dehydrated_enum {
-    ($type_name:ident) => {
-        paste! {
-            #[derive(Clone, Debug, Deserialize, Serialize)]
-            pub struct [<$type_name>]<I>([<$type_name Intern>]<I>);
-
-            #[derive(Clone, Debug, Deserialize, Serialize)]
-            enum [<$type_name Intern>]<I> {
-                Dehydrated([<Dehydrated$type_name>]<I>),
-                Hydrated([<Hydrated$type_name>]<I>),
-            }
-        }
-    };
+    fn hydrate(self) -> Self::Hydrated;
 }
 
-define_hydrated_dehydrated_enum!(Tournament);
-define_hydrated_dehydrated_enum!(Bracket);
-define_hydrated_dehydrated_enum!(Set);
-define_hydrated_dehydrated_enum!(Game);
-define_hydrated_dehydrated_enum!(PlayerGameInfo);
-define_hydrated_dehydrated_enum!(Player);
+pub trait Dehydrateable {
+    type Origin: DataOrigin;
+    type Dehydrated;
+
+    fn dehydrate(self) -> Self::Dehydrated;
+}
+
+pub trait NormalizableData {
+    type NormalizedData;
+
+    fn normalize(&self) -> Self::NormalizedData;
+}
+
+pub trait HydratableNormalized {
+    type NormalizedData;
+
+    fn hydrate_to_normalized(self) -> Self::NormalizedData;
+}
+
+impl<T, H> HydratableNormalized for T
+where
+    T: Hydratable<Hydrated = H>,
+    H: NormalizableData,
+{
+    type NormalizedData = H::NormalizedData;
+
+    fn hydrate_to_normalized(self) -> Self::NormalizedData {
+        self.hydrate().normalize()
+    }
+}
+
+pub trait DataOrigin {}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub enum HydratableType<D, H>
+where
+    D: Hydratable<Hydrated = H> + Hydratable,
+    H: Dehydrateable,
+{
+    Dehydrated(D),
+    Hydrated(H),
+}
