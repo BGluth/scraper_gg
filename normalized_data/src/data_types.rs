@@ -7,7 +7,9 @@ use crate::{
     dehydrated_data_types::{
         DehydratedBracket, DehydratedGame, DehydratedPlayer, DehydratedPlayerGameInfo, DehydratedSet, DehydratedTournament,
     },
-    hydrated_data_types::{HydratedBracket, HydratedGame, HydratedPlayer, HydratedPlayerGameInfo, HydratedSet, HydratedTournament},
+    normalized_hydrated_data_types::{
+        HydratedBracket, HydratedGame, HydratedPlayer, HydratedPlayerGameInfo, HydratedSet, HydratedTournament,
+    },
 };
 
 macro_rules! define_hydrated_dehydrated_enum {
