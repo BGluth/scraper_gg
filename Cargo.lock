@@ -294,6 +294,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "reporter_cli"
+version = "0.1.0"
+
+[[package]]
+name = "reporter_state"
+version = "0.1.0"
+
+[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
