@@ -1,1 +1,2 @@
+mod dispatcher;
 mod pages;
