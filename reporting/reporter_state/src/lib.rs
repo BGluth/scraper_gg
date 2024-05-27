@@ -1,2 +1,2 @@
-mod stores;
+pub mod stores;
 mod types;

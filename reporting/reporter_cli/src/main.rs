@@ -1,6 +1,8 @@
 mod dispatcher;
+mod message_loop;
 mod pages;
 
+use message_loop::message_loop;
 use ratatui::{buffer::Buffer, layout::Rect, widgets::Widget};
 
 #[derive(Debug)]
@@ -17,5 +19,5 @@ impl Widget for App {
 }
 
 fn main() {
-    todo!()
+    message_loop();
 }
