@@ -1,6 +1,7 @@
 mod dispatcher;
 mod message_loop;
 mod pages;
+mod prog_args;
 
 use message_loop::message_loop;
 use ratatui::{buffer::Buffer, layout::Rect, widgets::Widget};
