@@ -3,7 +3,9 @@ mod message_loop;
 mod pages;
 mod prog_args;
 
+use clap::Parser;
 use message_loop::message_loop;
+use prog_args::ProgArgs;
 use ratatui::{buffer::Buffer, layout::Rect, widgets::Widget};
 
 #[derive(Debug)]
@@ -18,6 +20,10 @@ impl Widget for App {
     }
 }
 
-fn main() {
+fn main() -> anyhow::Result<()> {
+    let p_args = ProgArgs::parse();
+
     message_loop();
+
+    Ok(())
 }

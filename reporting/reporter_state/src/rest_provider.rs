@@ -20,8 +20,8 @@ pub enum GGRestTokenParseError {
     #[error("The string {0} can not be parsed as hex! (Underlying reason: {1})")]
     NotHex(String, String),
 
-    #[error("The GG token should be exactly 20 bytes (40 characters) but instead found {1} bytes! (token: {0})")]
-    UnexpectedLength(String, usize),
+    #[error("The GG token should be exactly 20 bytes (40 characters) but instead found {1} {2}! (token: {0})")]
+    UnexpectedLength(String, usize, &'static str),
 }
 
 impl FromStr for GGRestToken {
@@ -35,13 +35,28 @@ impl FromStr for GGRestToken {
         let bytes = hex::decode(cleaned_str).map_err(|err| GGRestTokenParseError::NotHex(s.to_string(), err.to_string()))?;
 
         if bytes.len() != NUM_BYTES_IN_TOKEN {
-            return Err(GGRestTokenParseError::UnexpectedLength(s.to_string(), bytes.len()));
+            let bytes_or_byte_str = Self::get_bytes_or_byte_str(bytes.len());
+
+            return Err(GGRestTokenParseError::UnexpectedLength(
+                s.to_string(),
+                bytes.len(),
+                bytes_or_byte_str,
+            ));
         }
 
         let mut token_buf = [0; NUM_BYTES_IN_TOKEN];
         token_buf.copy_from_slice(&bytes);
 
         Ok(GGRestToken(token_buf))
+    }
+}
+
+impl GGRestToken {
+    fn get_bytes_or_byte_str(n_bytes: usize) -> &'static str {
+        match n_bytes {
+            1 => "byte",
+            _ => "bytes",
+        }
     }
 }
 
