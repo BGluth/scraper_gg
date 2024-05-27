@@ -1,18 +1,15 @@
 #[derive(Clone, Debug)]
-pub enum StoreAction {
-
-}
+pub enum StoreAction {}
 
 #[derive(Clone, Debug)]
 pub struct StoreActionProcessingOutput {
     pub rerender_needed: bool,
 }
 
-/// To start with, we're going to keep this fairly monolithic and not worry about decoupling. We're going to try to keep this fairly opaque and keep the interface stable though.
+/// To start with, we're going to keep this fairly monolithic and not worry about decoupling. We're going to try to keep this fairly opaque
+/// and keep the interface stable though.
 #[derive(Debug)]
-pub struct Stores {
-
-}
+pub struct Stores {}
 
 impl Default for Stores {
     fn default() -> Self {
@@ -27,5 +24,5 @@ impl Stores {
 
     pub fn process_store_action(action: StoreAction) -> StoreActionProcessingOutput {
         todo!()
-    }    
+    }
 }

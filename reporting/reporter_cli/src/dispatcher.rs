@@ -1,9 +1,5 @@
 #[derive(Debug)]
-struct Dispatcher {
-    
-}
+struct Dispatcher {}
 
 #[derive(Debug)]
-pub(crate) enum Action {
-
-}
+pub(crate) enum Action {}
