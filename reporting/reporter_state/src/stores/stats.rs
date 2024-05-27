@@ -1,20 +1,29 @@
 use chrono::Duration;
 
+use super::store_utils::Store;
 use crate::types::{DateTime, Provider, RollingAverage};
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub enum StatsStoreAction {}
 
 #[derive(Debug)]
-struct Stats {
+pub(crate) struct StatsStore {
     name: String,
     tourney_stats: Vec<TourneyStats>,
     time_stats: TimeStats,
 }
 
-impl Stats {
-    pub(crate) async fn new<P: Provider>(provider: &P) -> Self {
+impl StatsStore {
+    pub(super) async fn new<P: Provider>(provider: &P) -> Self {
         todo!()
+    }
+}
+
+impl Store for StatsStore {
+    type Action = StatsStoreAction;
+
+    fn update(&mut self, action: Self::Action) {
+        match action {}
     }
 }
 
