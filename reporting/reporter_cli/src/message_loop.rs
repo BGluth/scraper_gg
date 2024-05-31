@@ -1,6 +1,8 @@
 use reporter_state::stores::store_action_processing::{StoreAction, Stores};
 use tokio::sync::mpsc::{channel, Receiver, Sender};
 
+use crate::{prog_args::ProgArgs, tui_state::TuiState};
+
 const ACTION_BUF_SIZE: usize = 1000;
 
 pub(crate) type MsgLoopTx = Sender<TuiAction>;
@@ -16,16 +18,18 @@ pub(crate) enum TuiAction {
 
 pub(crate) struct ProgState {
     stores: Stores,
+    tui_state: TuiState,
 
     msg_rx: MsgLoopRx,
 }
 
 impl ProgState {
-    pub(crate) fn init() -> (Self, MsgLoopTx) {
+    pub(crate) fn init(p_args: ProgArgs) -> (Self, MsgLoopTx) {
         let (tx, rx) = channel(ACTION_BUF_SIZE);
 
         let state = Self {
             stores: Stores::new(),
+            tui_state: TuiState::new(tx.clone(), p_args.render_cfg),
             msg_rx: rx,
         };
 

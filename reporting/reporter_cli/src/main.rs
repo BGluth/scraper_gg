@@ -24,7 +24,7 @@ impl Widget for App {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let p_args = ProgArgs::parse();
-    let (p_state, msg_tx) = ProgState::init();
+    let (p_state, _) = ProgState::init(p_args);
 
     p_state.process_messages().await;
 

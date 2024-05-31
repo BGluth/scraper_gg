@@ -6,7 +6,11 @@ use tokio::{
     time::{sleep_until, Instant},
 };
 
-use crate::message_loop::{MsgLoopTx, TuiAction};
+use crate::{
+    message_loop::{MsgLoopTx, TuiAction},
+    pages::root::Root,
+    prog_args::RenderCfg,
+};
 
 pub(crate) struct TuiState {
     active_page_stack: VecDeque<Box<dyn Widget>>,
@@ -14,7 +18,7 @@ pub(crate) struct TuiState {
 }
 
 impl TuiState {
-    pub(crate) fn new(tx: MsgLoopTx, render_time_cfg: RenderBackoffTimerCfg) -> Self {
+    pub(crate) fn new(tx: MsgLoopTx, render_time_cfg: RenderCfg) -> Self {
         Self {
             active_page_stack: Self::create_page_queue(),
             render_timer: RenderBackoffTimer::new(tx, render_time_cfg),
@@ -22,17 +26,15 @@ impl TuiState {
     }
 
     fn create_page_queue() -> VecDeque<Box<dyn Widget>> {
-        todo!()
+        let mut p_stack = VecDeque::new();
+        p_stack.push_front(Box::new(Root::new()) as Box<dyn Widget>);
+
+        p_stack
     }
 }
 
 #[derive(Debug)]
-pub(crate) struct RenderBackoffTimerCfg {
-    pub(crate) min_time_between_renders: Duration,
-}
-
-#[derive(Debug)]
-/// Used to prevent a flooding of render calls from rendering the TUI wayyyy too fast.
+/// Used to prevent a flooding of render calls from rendering the TUI way too fast.
 struct RenderBackoffTimer {
     last_render_time: Instant,
     min_time_between_renders: Duration,
@@ -41,10 +43,10 @@ struct RenderBackoffTimer {
 }
 
 impl RenderBackoffTimer {
-    fn new(msg_loop_tx: MsgLoopTx, cfg: RenderBackoffTimerCfg) -> Self {
+    fn new(msg_loop_tx: MsgLoopTx, cfg: RenderCfg) -> Self {
         Self {
             last_render_time: Instant::now(),
-            min_time_between_renders: cfg.min_time_between_renders,
+            min_time_between_renders: cfg.delay_between_renders(),
             render_already_queued: false,
             msg_loop_tx,
         }
