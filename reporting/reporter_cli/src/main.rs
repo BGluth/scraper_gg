@@ -2,6 +2,7 @@ mod dispatcher;
 mod message_loop;
 mod pages;
 mod prog_args;
+mod tui_state;
 
 use clap::Parser;
 use message_loop::ProgState;
