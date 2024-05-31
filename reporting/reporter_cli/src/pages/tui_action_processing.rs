@@ -1,5 +1,3 @@
-use std::iter::empty;
-
 use reporter_state::stores::store_action_processing::StoreAction;
 
 /// Converts a `TUI`` action into a `Store`` action.
@@ -10,8 +8,8 @@ pub(crate) struct TuiActionProcessing {}
 pub(crate) enum TuiAction {}
 
 impl TuiActionProcessing {
-    pub(crate) fn process_action(action: TuiAction) -> impl Iterator<Item = StoreAction> {
-        todo!();
-        empty()
+    /// Process a TUI action into 0 - * store actions.
+    pub(crate) fn process_action(action: TuiAction) -> Box<dyn Iterator<Item = StoreAction>> {
+        todo!()
     }
 }
