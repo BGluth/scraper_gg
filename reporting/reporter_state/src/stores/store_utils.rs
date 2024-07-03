@@ -1,6 +1,6 @@
 use std::{ops::Deref, sync::Arc};
 
-use tokio::sync::RwLock;
+use parking_lot::RwLock;
 
 #[derive(Debug)]
 pub struct StoreData<T>(RwLock<Arc<T>>)
@@ -24,8 +24,20 @@ where
         Self(RwLock::new(Arc::new(v)))
     }
 
-    pub async fn create_ref(&self) -> StoreDataRef<T> {
-        StoreDataRef(self.0.read().await.clone())
+    pub fn update<F>(&mut self, update_f: F)
+    where
+        F: Fn(&mut T),
+    {
+        let lock = self.0.read().clone();
+        let mut cloned = (*lock).clone();
+
+        update_f(&mut cloned);
+
+        *self.0.write() = Arc::new(cloned);
+    }
+
+    pub fn create_ref(&self) -> StoreDataRef<T> {
+        StoreDataRef(self.0.read().clone())
     }
 }
 

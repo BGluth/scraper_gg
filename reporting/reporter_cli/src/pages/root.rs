@@ -1,19 +1,19 @@
-use ratatui::{buffer::Buffer, layout::Rect, widgets::Widget};
+use ratatui::{buffer::Buffer, layout::Rect, widgets::WidgetRef};
+use reporter_state::stores::{stats::StatsStore, store_utils::StoreDataRef};
 
 #[derive(Debug)]
-pub(crate) struct Root {}
+pub(crate) struct Root {
+    stats_store: StoreDataRef<StatsStore>,
+}
 
 impl Root {
-    pub(crate) fn new() -> Self {
+    pub(crate) fn new(stats_store: StoreDataRef<StatsStore>) -> Self {
         todo!()
     }
 }
 
-impl Widget for Root {
-    fn render(self, area: Rect, buf: &mut Buffer)
-    where
-        Self: Sized,
-    {
+impl WidgetRef for Root {
+    fn render_ref(&self, area: Rect, buf: &mut Buffer) {
         todo!()
     }
 }
@@ -21,11 +21,8 @@ impl Widget for Root {
 #[derive(Debug)]
 struct StatsWidget {}
 
-impl Widget for StatsWidget {
-    fn render(self, area: Rect, buf: &mut Buffer)
-    where
-        Self: Sized,
-    {
+impl WidgetRef for StatsWidget {
+    fn render_ref(&self, area: Rect, buf: &mut Buffer) {
         todo!()
     }
 }

@@ -1,6 +1,13 @@
-use std::{collections::VecDeque, fmt::Debug, time::Duration};
+use std::{
+    collections::VecDeque,
+    fmt::Debug,
+    io::{stdout, Stdout},
+    time::Duration,
+};
 
-use ratatui::widgets::Widget;
+use anyhow::Result;
+use ratatui::backend::CrosstermBackend;
+use reporter_state::stores::store_action_processing::Stores;
 use tokio::{
     task,
     time::{sleep_until, Instant},
@@ -12,24 +19,51 @@ use crate::{
     prog_args::RenderCfg,
 };
 
+type Terminal = ratatui::Terminal<CrosstermBackend<Stdout>>;
+
+#[derive(Clone, Copy, Debug)]
+enum PageType {
+    Root,
+}
+
 pub(crate) struct TuiState {
-    active_page_stack: VecDeque<Box<dyn Widget>>,
+    active_page_stack: VecDeque<PageType>,
     render_timer: RenderBackoffTimer,
+    terminal: Terminal,
 }
 
 impl TuiState {
-    pub(crate) fn new(tx: MsgLoopTx, render_time_cfg: RenderCfg) -> Self {
-        Self {
+    pub(crate) fn new(tx: MsgLoopTx, render_time_cfg: RenderCfg) -> Result<Self> {
+        let terminal = Terminal::new(CrosstermBackend::new(stdout()))?;
+
+        Ok(Self {
             active_page_stack: Self::create_page_queue(),
             render_timer: RenderBackoffTimer::new(tx, render_time_cfg),
-        }
+            terminal,
+        })
     }
 
-    fn create_page_queue() -> VecDeque<Box<dyn Widget>> {
+    fn create_page_queue() -> VecDeque<PageType> {
         let mut p_stack = VecDeque::new();
-        p_stack.push_front(Box::new(Root::new()) as Box<dyn Widget>);
+        p_stack.push_front(PageType::Root);
 
         p_stack
+    }
+
+    pub(crate) fn render(&mut self, stores: &Stores) -> anyhow::Result<()> {
+        // Pages will always take up the entire screen.
+        let active_page = self
+            .active_page_stack
+            .front()
+            .expect("Somehow found no active page to render (There should always be one)!");
+
+        self.terminal.draw(|frame| {
+            match active_page {
+                PageType::Root => frame.render_widget_ref(Root::new(stores.stats.create_ref()), frame.size()),
+            };
+        })?;
+
+        Ok(())
     }
 }
 

@@ -1,6 +1,6 @@
 use super::{
     stats::{StatsStore, StatsStoreAction},
-    store_utils::Store,
+    store_utils::{Store, StoreData},
 };
 
 #[derive(Clone, Debug)]
@@ -17,7 +17,7 @@ pub struct StoreActionProcessingOutput {
 /// and keep the interface stable though.
 #[derive(Debug)]
 pub struct Stores {
-    stats: StatsStore,
+    pub stats: StoreData<StatsStore>,
 }
 
 impl Default for Stores {
@@ -33,7 +33,7 @@ impl Stores {
 
     pub fn process_store_action(&mut self, action: StoreAction) -> StoreActionProcessingOutput {
         match action {
-            StoreAction::Stats(a) => self.stats.update(a),
+            StoreAction::Stats(a) => self.stats.update(|d| d.update(a)),
         };
 
         // For now, always assume that we need to redraw.

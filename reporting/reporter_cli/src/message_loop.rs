@@ -24,24 +24,26 @@ pub(crate) struct ProgState {
 }
 
 impl ProgState {
-    pub(crate) fn init(p_args: ProgArgs) -> (Self, MsgLoopTx) {
+    pub(crate) fn init(p_args: ProgArgs) -> anyhow::Result<(Self, MsgLoopTx)> {
         let (tx, rx) = channel(ACTION_BUF_SIZE);
 
         let state = Self {
             stores: Stores::new(),
-            tui_state: TuiState::new(tx.clone(), p_args.render_cfg),
+            tui_state: TuiState::new(tx.clone(), p_args.render_cfg)?,
             msg_rx: rx,
         };
 
-        (state, tx)
+        Ok((state, tx))
     }
 
-    pub(crate) async fn process_messages(mut self) {
+    pub(crate) async fn process_messages(mut self) -> anyhow::Result<()> {
         while let Some(msg) = self.msg_rx.recv().await {
             match msg {
                 TuiAction::Store(_) => todo!(),
-                TuiAction::TuiRefresh => todo!(),
+                TuiAction::TuiRefresh => self.tui_state.render(&self.stores)?,
             }
         }
+
+        Ok(())
     }
 }

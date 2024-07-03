@@ -3,11 +3,11 @@ use chrono::Duration;
 use super::store_utils::Store;
 use crate::types::{DateTime, Provider, RollingAverage};
 
-#[derive(Clone, Debug)]
+#[derive(Copy, Clone, Debug)]
 pub enum StatsStoreAction {}
 
-#[derive(Debug)]
-pub(crate) struct StatsStore {
+#[derive(Clone, Debug)]
+pub struct StatsStore {
     name: String,
     tourney_stats: Vec<TourneyStats>,
     time_stats: TimeStats,
@@ -27,13 +27,13 @@ impl Store for StatsStore {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct TourneyStats {
     p_stats: RegedPlayerStats,
     g_stats: GameStats,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct RegedPlayerStats {
     num_reged: usize,
 
@@ -41,13 +41,13 @@ struct RegedPlayerStats {
     num_checked_in: usize,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct GameStats {
     num_games: usize,
     num_completed: usize,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct TimeStats {
     start_time: DateTime,
     avg_set_duration: RollingAverage<f32>,
