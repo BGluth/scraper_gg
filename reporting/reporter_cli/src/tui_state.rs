@@ -15,7 +15,7 @@ use tokio::{
 
 use crate::{
     message_loop::{MsgLoopTx, TuiAction},
-    pages::root::Root,
+    pages::stats::Root,
     prog_args::RenderCfg,
 };
 
