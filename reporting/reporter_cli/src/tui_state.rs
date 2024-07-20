@@ -59,7 +59,7 @@ impl TuiState {
 
         self.terminal.draw(|frame| {
             match active_page {
-                PageType::Root => frame.render_widget_ref(Root::new(stores.stats.create_ref()), frame.size()),
+                PageType::Root => frame.render_widget_ref(Root::new(stores.tourney_store.create_ref()), frame.size()),
             };
         })?;
 

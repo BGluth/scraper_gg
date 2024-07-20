@@ -1,11 +1,11 @@
 use super::{
-    stats::{StatsStore, StatsStoreAction},
-    store_utils::{Store, StoreData},
+    stats::{StatsStore, TourneyStoreAction},
+    store_utils::{Store, StoreData}, tourney::TourneyStore,
 };
 
 #[derive(Clone, Debug)]
 pub enum StoreAction {
-    Stats(StatsStoreAction),
+    Tourney(TourneyStoreAction),
 }
 
 #[derive(Clone, Debug)]
@@ -17,7 +17,7 @@ pub struct StoreActionProcessingOutput {
 /// and keep the interface stable though.
 #[derive(Debug)]
 pub struct Stores {
-    pub stats: StoreData<StatsStore>,
+    pub tourney_store: StoreData<TourneyStore>,
 }
 
 impl Default for Stores {
@@ -28,12 +28,14 @@ impl Default for Stores {
 
 impl Stores {
     pub fn new() -> Self {
-        todo!()
+        Self {
+            tourney_store: TourneyStore::new().into(),
+        }
     }
 
     pub fn process_store_action(&mut self, action: StoreAction) -> StoreActionProcessingOutput {
         match action {
-            StoreAction::Stats(a) => self.stats.update(|d| d.update(a)),
+            StoreAction::Tourney(a) => self.tourney_store.update(|d| d.update(a)),
         };
 
         // For now, always assume that we need to redraw.

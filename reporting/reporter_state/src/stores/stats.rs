@@ -1,16 +1,18 @@
+use std::collections::HashSet;
+
 use chrono::Duration;
 
 use super::store_utils::Store;
 use crate::types::{DateTime, Provider, RollingAverage};
 
 #[derive(Copy, Clone, Debug)]
-pub enum StatsStoreAction {}
+pub enum TourneyStoreAction {}
 
 #[derive(Clone, Debug)]
 pub struct StatsStore {
-    name: String,
-    tourney_stats: Vec<TourneyStats>,
-    time_stats: TimeStats,
+    pub name: String,
+    pub event_stats: Vec<EventStats>,
+    pub time_stats: TimeStats,
 }
 
 impl StatsStore {
@@ -20,7 +22,7 @@ impl StatsStore {
 }
 
 impl Store for StatsStore {
-    type Action = StatsStoreAction;
+    type Action = TourneyStoreAction;
 
     fn update(&mut self, action: Self::Action) {
         match action {}
@@ -28,29 +30,29 @@ impl Store for StatsStore {
 }
 
 #[derive(Clone, Debug)]
-struct TourneyStats {
-    p_stats: RegedPlayerStats,
-    g_stats: GameStats,
+struct EventStats {
+    pub p_stats: RegedPlayerStats,
+    pub g_stats: GameStats,
 }
 
 #[derive(Clone, Debug)]
 struct RegedPlayerStats {
-    num_reged: usize,
+    pub num_reged: usize,
 
     /// The number of players that have checked-in and completed any other pre-reqs (eg. have payed).
-    num_checked_in: usize,
+    pub num_checked_in: usize,
 }
 
 #[derive(Clone, Debug)]
 struct GameStats {
-    num_games: usize,
-    num_completed: usize,
+    pub num_games: usize,
+    pub num_completed: usize,
 }
 
 #[derive(Clone, Debug)]
 struct TimeStats {
-    start_time: DateTime,
-    avg_set_duration: RollingAverage<f32>,
+    pub start_time: DateTime,
+    pub avg_set_duration: RollingAverage<f32>,
 }
 
 impl TimeStats {
@@ -65,12 +67,12 @@ impl TimeStats {
 
 #[derive(Debug)]
 struct ApiStats {
-    avg_resp_time: RollingAverage<f32>,
-    complexity_buf: QueryComplexityBuffer,
+    pub avg_resp_time: RollingAverage<f32>,
+    pub complexity_buf: QueryComplexityBuffer,
 }
 
 #[derive(Debug)]
 struct QueryComplexityBuffer {
-    curr_complexity: usize,
-    backoff_complexity: usize,
+    pub curr_complexity: usize,
+    pub backoff_complexity: usize,
 }

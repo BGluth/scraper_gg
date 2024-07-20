@@ -1,6 +1,6 @@
 use reporter_state::stores::store_action_processing::StoreAction;
 
-/// Converts a `TUI`` action into a `Store`` action.
+/// Converts a `TUI` action into a `Store` action.
 #[derive(Debug, Default)]
 pub(crate) struct TuiActionProcessing {}
 
