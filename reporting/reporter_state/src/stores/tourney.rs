@@ -1,18 +1,24 @@
 use std::collections::HashMap;
 
-use normalized_data::hydrated_normalized_data::{HydratedNormalizedPlayer, NormalizedBracket, NormalizedPlayer};
+use normalized_data::hydrated_normalized_data::{NormalizedBracket, NormalizedPlayer};
 
 use super::{stats::TourneyStoreAction, store_utils::Store};
 
 pub type EventKey = String;
 pub type LocalPlayerId = usize;
 
-/// Store state 
+/// Store state
 #[derive(Clone, Debug)]
 pub struct TourneyStore {
     tourney_name: String,
     brackets: HashMap<EventKey, NormalizedBracket>,
     registered_players: HashMap<LocalPlayerId, NormalizedPlayer>,
+}
+
+impl Default for TourneyStore {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl TourneyStore {
@@ -25,7 +31,7 @@ impl TourneyStore {
         }
     }
 
-    pub fn tourney_name<'a>(&'a self) -> &'a str {
+    pub fn tourney_name(&self) -> &str {
         &self.tourney_name
     }
 

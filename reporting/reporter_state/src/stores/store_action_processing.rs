@@ -1,6 +1,7 @@
 use super::{
-    stats::{StatsStore, TourneyStoreAction},
-    store_utils::{Store, StoreData}, tourney::TourneyStore,
+    stats::TourneyStoreAction,
+    store_utils::{Store, StoreData},
+    tourney::TourneyStore,
 };
 
 #[derive(Clone, Debug)]

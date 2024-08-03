@@ -787,6 +787,7 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "hex",
+ "normalized_data",
  "parking_lot 0.12.3",
  "thiserror",
  "tokio",
