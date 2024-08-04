@@ -715,6 +715,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "provider"
+version = "0.1.0"
+
+[[package]]
 name = "query_interface"
 version = "0.1.0"
 dependencies = [
