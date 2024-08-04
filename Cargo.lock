@@ -436,6 +436,11 @@ dependencies = [
 [[package]]
 name = "gg_query"
 version = "0.1.0"
+dependencies = [
+ "hex",
+ "provider",
+ "thiserror",
+]
 
 [[package]]
 name = "gimli"
@@ -791,6 +796,7 @@ dependencies = [
  "anyhow",
  "clap",
  "crossterm",
+ "gg_query",
  "ratatui",
  "reporter_state",
  "tokio",
@@ -801,7 +807,7 @@ name = "reporter_state"
 version = "0.1.0"
 dependencies = [
  "chrono",
- "hex",
+ "gg_query",
  "normalized_data",
  "parking_lot 0.12.3",
  "thiserror",

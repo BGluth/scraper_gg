@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use clap::{Args, Parser};
-use reporter_state::rest_provider::GGRestToken;
+use gg_query::types::GGRestToken;
 
 #[derive(Debug, Parser)]
 #[command(version, about, author)]
