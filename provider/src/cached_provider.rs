@@ -1,4 +1,9 @@
+use bytesize::ByteSize;
+
 use crate::provider::Provider;
+
+const DEFAULT_MEM_CACHE_SIZE: ByteSize = ByteSize::gb(2);
+const DEFAULT_DISK_CACHE_SIZE: ByteSize = ByteSize::gb(50);
 
 pub trait CacheableProvider {
     /// This is pretty unstable and may change.
@@ -14,11 +19,27 @@ pub trait CacheableProvider {
 #[derive(Debug)]
 pub struct CachedProviderBuilder<P: CacheableProvider + Provider> {
     remote_p: P,
+    max_mem_cache_size: ByteSize,
+    max_disk_cache_size: ByteSize,
 }
 
 impl<T: CacheableProvider + Provider> CachedProviderBuilder<T> {
     pub fn new(remote_p: T) -> Self {
-        todo!()
+        Self {
+            remote_p,
+            max_disk_cache_size: DEFAULT_MEM_CACHE_SIZE,
+            max_mem_cache_size: DEFAULT_DISK_CACHE_SIZE,
+        }
+    }
+
+    pub fn max_mem_cache_size(mut self, max_mem_cache_size: ByteSize) -> Self {
+        self.max_mem_cache_size = max_mem_cache_size;
+        self
+    }
+
+    pub fn max_disk_cache_size(mut self, max_disk_cache_size: ByteSize) -> Self {
+        self.max_disk_cache_size = max_disk_cache_size;
+        self
     }
 
     pub fn build(self) -> CachedProvider<T> {
